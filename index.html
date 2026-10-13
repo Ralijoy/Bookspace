@@ -1,0 +1,220 @@
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#244c3a">
+  <title>BookSpace | Minha estante</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="#inicio">bookspace<span>.</span></a>
+  <button class="menu-toggle" id="menu-toggle" type="button"
+    aria-label="Abrir menu" aria-expanded="false">☰</button>
+  <nav id="menu">
+    <a href="#inicio">Início</a>
+    <a href="#biblioteca">Minha estante</a>
+    <a href="#estatisticas">Estatísticas</a>
+    <a href="#sobre">Sobre</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <div class="hero-copy">
+      <span class="eyebrow">SUA BIBLIOTECA PESSOAL</span>
+      <h1>Histórias que ficam com a gente.</h1>
+      <p>Um espaço para guardar seus livros, registrar impressões
+        e acompanhar cada leitura.</p>
+      <a class="button" href="#biblioteca">
+        Ver minha estante <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <div class="art-circle"></div>
+      <div class="book-stack">
+        <div class="stack-book b1">CRIME<br>E CASTIGO</div>
+        <div class="stack-book b2">RASHŌMON</div>
+        <div class="stack-book b3">DECLÍNIO<br>DE UM HOMEM</div>
+      </div>
+      <span class="art-note">uma página de cada vez.</span>
+    </div>
+  </section>
+
+  <section class="section" id="biblioteca">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">COLEÇÃO PESSOAL</span>
+        <h2>Minha estante</h2>
+        <p>Suas leituras, do seu jeito.</p>
+      </div>
+      <button class="button" id="add-book" type="button">
+        + Adicionar livro
+      </button>
+    </div>
+
+    <div class="toolbar">
+      <label class="search">
+        <span aria-hidden="true">⌕</span>
+        <input id="search" type="search"
+          placeholder="Pesquisar por título, autor ou gênero"
+          aria-label="Pesquisar livros">
+      </label>
+      <select id="sort" aria-label="Ordenar livros">
+        <option value="recent">Mais recentes</option>
+        <option value="title">Título A–Z</option>
+        <option value="author">Autor A–Z</option>
+        <option value="rating">Melhor avaliação</option>
+      </select>
+    </div>
+
+    <div class="filters" id="filters" aria-label="Filtrar livros">
+      <button type="button" class="filter active"
+        data-filter="Todos" aria-pressed="true">Todos</button>
+      <button type="button" class="filter"
+        data-filter="Lendo" aria-pressed="false">Lendo</button>
+      <button type="button" class="filter"
+        data-filter="Lido" aria-pressed="false">Lidos</button>
+      <button type="button" class="filter"
+        data-filter="Quero ler" aria-pressed="false">Quero ler</button>
+      <button type="button" class="filter"
+        data-filter="Favoritos" aria-pressed="false">♡ Favoritos</button>
+    </div>
+
+    <p class="results" id="results" aria-live="polite"></p>
+    <div class="book-grid" id="book-grid"></div>
+
+    <div class="empty" id="empty" hidden>
+      <h3>Nenhum livro por aqui.</h3>
+      <p>Tente outra busca ou adicione uma nova leitura.</p>
+    </div>
+  </section>
+
+  <section class="stats-section" id="estatisticas">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">UM POUCO SOBRE SUAS LEITURAS</span>
+        <h2>Em números</h2>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat">
+        <strong id="stat-total">0</strong>
+        <span>Livros na estante</span>
+      </div>
+      <div class="stat">
+        <strong id="stat-read">0</strong>
+        <span>Livros lidos</span>
+      </div>
+      <div class="stat">
+        <strong id="stat-reading">0</strong>
+        <span>Lendo agora</span>
+      </div>
+      <div class="stat">
+        <strong id="stat-pages">0</strong>
+        <span>Páginas registradas</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="about section" id="sobre">
+    <span class="eyebrow">SOBRE O PROJETO</span>
+    <h2>Uma estante com a sua cara.</h2>
+    <p>O BookSpace é um pequeno diário de leitura: adicione livros,
+      salve suas opiniões e veja seu progresso. Seus dados ficam
+      armazenados neste navegador.</p>
+  </section>
+</main>
+
+<footer>
+  bookspace.
+  <span>Feito para quem sempre tem um livro por perto.</span>
+</footer>
+
+<dialog id="book-dialog" aria-labelledby="dialog-title">
+  <form id="book-form" class="dialog-form">
+    <div class="dialog-head">
+      <h2 id="dialog-title">Adicionar livro</h2>
+      <button type="button" class="icon-button"
+        id="close-dialog" aria-label="Fechar">×</button>
+    </div>
+
+    <div class="form-grid">
+      <label class="wide">Título *
+        <input id="f-title" required maxlength="150">
+      </label>
+      <label class="wide">Autor *
+        <input id="f-author" required maxlength="120">
+      </label>
+      <label>Gênero
+        <input id="f-genre" maxlength="80"
+          placeholder="Ex.: Romance">
+      </label>
+      <label>Status
+        <select id="f-status">
+          <option>Quero ler</option>
+          <option>Lendo</option>
+          <option>Lido</option>
+        </select>
+      </label>
+      <label>Total de páginas
+        <input id="f-pages" type="number" min="0"
+          max="100000" step="1" placeholder="0">
+      </label>
+      <label>Páginas lidas
+        <input id="f-progress" type="number" min="0"
+          max="100000" step="1" placeholder="0">
+      </label>
+      <label>Avaliação
+        <select id="f-rating">
+          <option value="0">Sem avaliação</option>
+          <option value="1">★ 1</option>
+          <option value="2">★★ 2</option>
+          <option value="3">★★★ 3</option>
+          <option value="4">★★★★ 4</option>
+          <option value="5">★★★★★ 5</option>
+        </select>
+      </label>
+      <label>URL da capa
+        <input id="f-cover" type="url" placeholder="https://...">
+      </label>
+      <label class="wide">Sinopse
+        <textarea id="f-description" rows="3"
+          maxlength="1500"></textarea>
+      </label>
+      <label class="wide">Minhas anotações
+        <textarea id="f-notes" rows="3"
+          maxlength="2500"></textarea>
+      </label>
+    </div>
+
+    <p class="form-hint">* Campos obrigatórios. Para capas,
+      use um endereço HTTPS de imagem ou deixe em branco.</p>
+
+    <div class="dialog-actions">
+      <button class="button button-ghost" type="button"
+        id="cancel-dialog">Cancelar</button>
+      <button class="button" type="submit">Salvar livro</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="details-dialog" aria-labelledby="details-title">
+  <div class="details" id="details-content"></div>
+  <div class="dialog-actions details-actions">
+    <button class="button button-ghost" type="button"
+      id="close-details">Fechar</button>
+    <button class="button" type="button"
+      id="edit-details">Editar livro</button>
+  </div>
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+</body>
+</html>
